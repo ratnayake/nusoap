@@ -6727,6 +6727,22 @@ class nusoap_parser extends nusoap_base
     function __construct($xml, $encoding = 'UTF-8', $method = '', $decode_utf8 = true)
     {
         parent::__construct();
+		
+		$encoding = 'UTF-8';
+        if (strpos($xml ,'uuid') !== false) {
+            //$response = explode("</soap:Envelope>",stristr($response,"<soap:Envelope"));
+            //$response1 =  $response[0] . "</soap:Envelope>";
+            $xml = stristr($xml, "<soap:");
+            // Handle and parse MIME-encoded messages
+            //echo "test123";
+
+            $xml = substr($xml, 0, strpos($xml, "</soap:Envelope>")) . "</soap:Envelope>";
+
+			$xml = '<?xml version="1.0" encoding="UTF-8"?>' . $xml;
+
+			//var_dump($xml);
+        }
+		
         $this->xml = $xml;
         $this->xml_encoding = $encoding;
         $this->method = $method;
